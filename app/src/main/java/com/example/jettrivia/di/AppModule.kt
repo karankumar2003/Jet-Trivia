@@ -1,6 +1,7 @@
 package com.example.jettrivia.di
 
 import com.example.jettrivia.network.TriviaApi
+import com.example.jettrivia.repository.Repository
 import com.example.jettrivia.utils.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -22,5 +23,11 @@ object AppModule {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(TriviaApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideRepository(api:TriviaApi) : Repository
+    = Repository(api)
+
 
 }

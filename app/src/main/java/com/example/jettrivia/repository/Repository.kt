@@ -6,7 +6,7 @@ import com.example.jettrivia.model.QuestionsItem
 import com.example.jettrivia.network.TriviaApi
 import javax.inject.Inject
 
-class repository @Inject constructor(private val api:TriviaApi) {
+class Repository @Inject constructor(private val api:TriviaApi) {
     private val dataOrException = DataOrException<ArrayList<QuestionsItem>,Boolean,Exception>()
 
     suspend fun getAllQuestions():DataOrException<ArrayList<QuestionsItem>,Boolean,Exception>{
