@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -15,8 +16,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.jettrivia.component.DottedLine
+import com.example.jettrivia.component.ProgressIndicator
 import com.example.jettrivia.component.QuestionAndChoices
 import com.example.jettrivia.component.QuestionTracker
 import com.example.jettrivia.model.Questions
@@ -56,15 +59,15 @@ fun MainScreen(viewModel: QuestionsViewModel = viewModel()) {
     }else{
         Column(modifier=Modifier
             .fillMaxSize()
+            .padding(10.dp)
         ){
-            QuestionTracker(total = questions?.size)
+            ProgressIndicator(currentQuestionIndex,questions!!.size)
+            QuestionTracker(counter = currentQuestionIndex.value,total = questions?.size)
             DottedLine(pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f,10f),0f))
-            QuestionAndChoices(questions!!)
+            QuestionAndChoices(currentQuestionIndex,questions!!)
         }
 
     }
-
-
 }
 
 

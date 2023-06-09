@@ -50,7 +50,7 @@ fun QuestionTracker(counter: Int = 10, total: Int? = 3000) {
             }
         },
         modifier = Modifier
-            .padding(20.dp)
+            .padding(10.dp)
     )
 }
 
@@ -69,80 +69,5 @@ fun DottedLine(pathEffect: PathEffect) {
             end = Offset(size.width, 0f),
             pathEffect = pathEffect
         )
-    }
-}
-
-@Composable
-fun QuestionAndChoices(
-    questionList: MutableList<QuestionsItem>
-) {
-    Column(modifier = Modifier.fillMaxSize()) {
-        val chosenIndex = remember{
-            mutableStateOf(-1)
-        }
-        val isChoiceCorrect = remember{
-            mutableStateOf(false)
-        }
-        val currentQuestionNumber = remember{
-            mutableStateOf(0)
-        }
-
-        Text(
-            questionList[currentQuestionNumber.value].question,
-            fontWeight = FontWeight.Bold,
-            fontSize = 18.sp,
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.4f)
-                .padding(10.dp)
-        )
-        questionList[currentQuestionNumber.value].choices.forEachIndexed { index,choice ->
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .border(
-                        1.dp,
-                        color = MaterialTheme.colorScheme.primary,
-                        shape = RoundedCornerShape(10.dp)
-                    )
-                    .padding(10.dp)
-                    .clickable {
-                        chosenIndex.value = index
-                        isChoiceCorrect.value =  questionList[currentQuestionNumber.value].choices[index]== questionList[currentQuestionNumber.value].answer
-                    }
-            ) {
-
-                RadioButton(selected = chosenIndex.value == index ,
-                    onClick = {
-                        chosenIndex.value = index
-                        isChoiceCorrect.value =  questionList[currentQuestionNumber.value].choices[index]== questionList[currentQuestionNumber.value].answer
-                    },
-                    colors = RadioButtonDefaults.colors(
-                        selectedColor = if(isChoiceCorrect.value) Color.Green else Color.Red
-                    ),
-                    modifier=Modifier.padding(start=10.dp)
-                )
-
-                Text(choice, fontSize = 18.sp, modifier = Modifier.align(Alignment.CenterVertically))
-
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-
-
-        Button(
-            onClick = {
-                currentQuestionNumber.value++
-                chosenIndex.value=-1
-
-            },
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-        ) {
-            Text(text = "Next", fontSize = 18.sp)
-        }
-
     }
 }
