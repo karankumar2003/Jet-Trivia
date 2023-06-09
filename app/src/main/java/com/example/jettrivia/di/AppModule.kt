@@ -23,6 +23,4 @@ object AppModule {
         .build()
         .create(TriviaApi::class.java)
 
-
-
 }
