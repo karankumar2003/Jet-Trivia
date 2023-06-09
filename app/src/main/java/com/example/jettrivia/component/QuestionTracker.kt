@@ -46,7 +46,9 @@ fun QuestionTracker(counter: Int = 10, total: Int? = 3000) {
                 append("Question $counter/")
             }
             withStyle(SpanStyle(fontSize = 16.sp, fontWeight = FontWeight.Light)) {
-                append("$total")
+                if (total != null) {
+                    append("${total+1}")
+                }
             }
         },
         modifier = Modifier
