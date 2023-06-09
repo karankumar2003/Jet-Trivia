@@ -1,23 +1,28 @@
 package com.example.jettrivia
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.jettrivia.component.DottedLine
+import com.example.jettrivia.component.QuestionAndChoices
+import com.example.jettrivia.component.QuestionTracker
+import com.example.jettrivia.model.Questions
 import com.example.jettrivia.ui.theme.JetTriviaTheme
 import com.example.jettrivia.viewModel.QuestionsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.lifecycle.HiltViewModel
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -38,28 +43,35 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainScreen(viewModel:QuestionsViewModel= androidx.lifecycle.viewmodel.compose.viewModel()) {
-    val context = LocalContext.current
-    val questions = viewModel.data.value.data?.toMutableList()
-    if(viewModel.data.value.isLoading==true){
+fun MainScreen(viewModel: QuestionsViewModel = viewModel()) {
 
-        Toast.makeText(context,"Loading",Toast.LENGTH_SHORT).show()
-        Log.d("Haha", "Loading")
+    val questions = viewModel.data.value.data?.toMutableList()
+    val currentQuestionIndex = remember{
+        mutableStateOf(0)
+    }
+
+
+    if(viewModel.data.value.isLoading == true){
+        CircularProgressIndicator()
     }else{
-        Log.d("Haha","Loading complete ")
-        Toast.makeText(context,"Loading complete ${questions?.size}",Toast.LENGTH_SHORT).show()
-        questions?.forEach {
-            Log.d("Haha",it.question)
+        Column(modifier=Modifier
+            .fillMaxSize()
+        ){
+            QuestionTracker(total = questions?.size)
+            DottedLine(pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f,10f),0f))
+            QuestionAndChoices(questions!!)
         }
 
-
     }
+
+
 }
+
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     JetTriviaTheme {
-
+        MainScreen()
     }
 }
