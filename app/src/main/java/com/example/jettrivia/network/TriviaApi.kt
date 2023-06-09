@@ -8,5 +8,5 @@ import javax.inject.Singleton
 interface TriviaApi {
 
     @GET("world.json")
-    fun getAllQuestions(): Questions
+    suspend fun getAllQuestions(): Questions
 }

@@ -13,7 +13,7 @@ class Repository @Inject constructor(private val api:TriviaApi) {
         try{
             dataOrException.isLoading = true
             dataOrException.data = api.getAllQuestions()
-            if(dataOrException.data.toString().isEmpty()){
+            if(dataOrException.data.toString().isNotEmpty()){
                 dataOrException.isLoading = false
             }
         }catch (e:Exception){

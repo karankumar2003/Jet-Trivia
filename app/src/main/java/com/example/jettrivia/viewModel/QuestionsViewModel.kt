@@ -14,12 +14,16 @@ import javax.inject.Inject
 @HiltViewModel
 class QuestionsViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
-    private val data: MutableState<DataOrException<ArrayList<QuestionsItem>,Boolean,Exception>>
-    = mutableStateOf(DataOrException(null,true,Exception()))
+    val data: MutableState<DataOrException<ArrayList<QuestionsItem>,Boolean,Exception>>
+    = mutableStateOf(DataOrException(null,true,Exception("")))
 
     init {
         viewModelScope.launch {
+            data.value.isLoading = true
             data.value = repository.getAllQuestions()
+            if(data.value.data.toString().isNotEmpty()){
+                data.value.isLoading = false
+            }
 
         }
     }
